@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controller\" />
+    <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.8" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Arstive.Controller;
 
 namespace Arstive
 {
@@ -19,6 +20,16 @@ namespace Arstive
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void AddControl(UIElement element)
+        {
+            this.GameGrid.Children.Add(element);
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            GameController.LoadChart("", AddControl);
         }
     }
 }
