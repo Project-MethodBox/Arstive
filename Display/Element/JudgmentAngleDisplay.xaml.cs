@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace Arstive.Display
+namespace Arstive.Display.Element
 {
     /// <summary>
-    /// JudementAngleDisplay.xaml 的交互逻辑
+    /// JudgmentAngleDisplay.xaml 的交互逻辑
     /// </summary>
-    public partial class JudementAngleDisplay : UserControl
+    public partial class JudgmentAngleDisplay : UserControl
     {
-        public JudementAngleDisplay()
+        public JudgmentAngleDisplay()
         {
             this.DataContext = this;
             InitializeComponent();
@@ -32,8 +21,8 @@ namespace Arstive.Display
         /// </summary>
         public Key BindingKey
         {
-            get { return (Key)GetValue(BindingKeyProperty); }
-            set { SetValue(BindingKeyProperty, value); }
+            get => (Key)GetValue(BindingKeyProperty);
+            set => SetValue(BindingKeyProperty, value);
         }
 
 
@@ -41,7 +30,7 @@ namespace Arstive.Display
         /// <inheritdoc cref="BindingKey"/>
         /// </summary>
         public static readonly DependencyProperty BindingKeyProperty =
-            DependencyProperty.Register("BindingKey", typeof(Key), typeof(JudementAngleDisplay), new PropertyMetadata(new KeyConverter().ConvertFrom("W")));
+            DependencyProperty.Register(nameof(BindingKey), typeof(Key), typeof(JudgmentAngleDisplay), new PropertyMetadata(new KeyConverter().ConvertFrom("W")));
 
         /// <summary>
         /// Determine the angle of rotation on the left
@@ -49,8 +38,8 @@ namespace Arstive.Display
         /// </summary>
         public int LeftRotateAngle
         {
-            get { return (int)GetValue(LeftRotateAngleProperty); }
-            set { SetValue(LeftRotateAngleProperty, value); }
+            get => (int)GetValue(LeftRotateAngleProperty);
+            set => SetValue(LeftRotateAngleProperty, value);
         }
 
 
@@ -58,7 +47,7 @@ namespace Arstive.Display
         /// <inheritdoc cref="LeftRotateAngle"/>
         /// </summary>
         public static readonly DependencyProperty LeftRotateAngleProperty =
-            DependencyProperty.Register("LeftRotateAngle", typeof(int), typeof(JudementAngleDisplay), new PropertyMetadata(-45));
+            DependencyProperty.Register(nameof(LeftRotateAngle), typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(-45));
 
 
         /// <summary>
@@ -67,15 +56,15 @@ namespace Arstive.Display
         /// </summary>
         public int RightRotateAngle
         {
-            get { return (int)GetValue(RightRotateAngleProperty); }
-            set { SetValue(RightRotateAngleProperty, value); }
+            get => (int)GetValue(RightRotateAngleProperty);
+            set => SetValue(RightRotateAngleProperty, value);
         }
 
         /// <summary>
         /// <inheritdoc cref="RightRotateAngle"/>
         /// </summary>
         public static readonly DependencyProperty RightRotateAngleProperty =
-            DependencyProperty.Register("LeftRotate", typeof(int), typeof(JudementAngleDisplay), new PropertyMetadata(45));
+            DependencyProperty.Register("LeftRotate", typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(45));
 
         /// <summary>
         /// Index of current judgment angle

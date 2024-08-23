@@ -13,7 +13,7 @@ namespace Arstive.Model
             /// The number of milliseconds between the start of the game
             /// and the triggering of the event
             /// </summary>
-            internal int StartTime { get; set; }
+            internal double StartTime { get; set; }
 
             /// <summary>
             /// The time elapsed for the complete operation of the event
@@ -24,6 +24,24 @@ namespace Arstive.Model
             /// Type of current event
             /// </summary>
             internal ElementEvent.ElementEventType EventType { get; set; }
-        } 
+        }
+        
+        public abstract class NoteBase
+        {
+            /// <summary>
+            /// Index of determining the angle to which the note belongs
+            /// </summary>
+            public int JudgmentAngleIndex { get; set; }
+
+            /// <summary>
+            /// The time when the Note was hit, measured in ten milliseconds
+            /// </summary>
+            public int HitTime { get; set; }
+
+            /// <summary>
+            /// Relative flow velocity of musical notes·
+            /// </summary>
+            public int Speed { get; set; }
+        }
     }
 }

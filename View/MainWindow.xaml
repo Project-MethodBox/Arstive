@@ -2,6 +2,7 @@
     x:Class="Arstive.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controller="clr-namespace:Arstive.Controller"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Arstive"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,8 +12,30 @@
     Height="710"
     Loaded="MainWindow_OnLoaded"
     mc:Ignorable="d">
-    <Grid Name="GameGrid" />
 
+    <!--  Binding score,etc.  -->
+    <Window.Resources>
+        <controller:GameController x:Key="game" />
+    </Window.Resources>
+
+    <Grid Name="GameGrid">
+        <StackPanel Orientation="Vertical" />
+        <TextBlock
+            Margin="10"
+            HorizontalAlignment="Right"
+            FontFamily="Consolas"
+            FontSize="30"
+            Foreground="White"
+            Text="000000" />
+        <TextBlock
+            Name="Ticks"
+            Margin="10,640,10,10"
+            d:Text="0"
+            FontFamily="Consolas"
+            FontSize="20"
+            Foreground="White"
+            Text="{Binding Source={StaticResource game}, Path=TimeTick}" />
+    </Grid>
     <Window.Background>
         <SolidColorBrush Color="Black" />
     </Window.Background>

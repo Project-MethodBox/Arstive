@@ -3,7 +3,9 @@ using static Arstive.Model.Interfaces;
 
 namespace Arstive.Model
 {
-    public class JudgmentAngle(Key bindingKey, int index, List<Interfaces.ElementEventBase>? eventLists, (int,int) position)
+    public class JudgmentAngle(Key bindingKey, int index, 
+        List<Interfaces.NoteBase>? noteList,
+        List<Interfaces.ElementEventBase>? eventList, (int,int) position)
     {
         /// <summary>
         /// Keyboard keys that trigger judgment
@@ -18,7 +20,12 @@ namespace Arstive.Model
         /// <summary>
         /// Judgment angle behavior lists
         /// </summary>
-        public List<ElementEventBase>? EventLists { get; set; } = eventLists;
+        public List<Interfaces.ElementEventBase>? EventList { get; set; } = eventList;
+
+        /// <summary>
+        /// List of notes bound to Judgment Angle
+        /// </summary>
+        public List<Interfaces.NoteBase>? NoteLists { get; set; } = noteList;
 
         /// <summary>
         /// Determine the initialization relative position of the angle
