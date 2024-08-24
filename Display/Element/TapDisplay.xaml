@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="Arstive.Display.Element.TapDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Arstive.Display.Element"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="140"
+    Height="90"
+    d:DesignHeight="90"
+    d:DesignWidth="140"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel Margin="10,0,0,0">
+            <Rectangle
+                Width="10"
+                Height="80"
+                Fill="#4CFFFFFF"
+                RadiusX="5"
+                RadiusY="5"
+                Stroke="White"
+                StrokeThickness="2">
+                <Rectangle.RenderTransform>
+                    <RotateTransform d:Angle="-45" Angle="-45" CenterX="1" CenterY="80" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
+            <Rectangle
+                x:Name="AngleLeft"
+                Width="10"
+                Height="80"
+                Fill="#4CFFFFFF"
+                RadiusX="5"
+                RadiusY="5"
+                Stroke="White"
+                StrokeThickness="2">
+                <Rectangle.RenderTransform>
+                    <TransformGroup>
+                        <RotateTransform d:Angle="45" Angle="45" CenterY="80" />
+                        <TranslateTransform X="-5" Y="-87" />
+                    </TransformGroup>
+                </Rectangle.RenderTransform>
+            </Rectangle>
+        </StackPanel>
+    </Grid>
+</UserControl>

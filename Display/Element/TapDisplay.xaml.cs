@@ -13,16 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Arstive.Display.Element.Element
+namespace Arstive.Display.Element
 {
     /// <summary>
-    /// NoteDisplay.xaml 的交互逻辑
+    /// TapDisplay.xaml 的交互逻辑
     /// </summary>
-    public partial class NoteDisplay : UserControl
+    public partial class TapDisplay : UserControl, INoteDisplay
     {
-        public NoteDisplay()
+        public TapDisplay()
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// The Index of note relative to the current judgment angle
+        /// </summary>
+        public int Index { get; set; }
     }
 }

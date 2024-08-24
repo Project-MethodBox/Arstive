@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using Arstive.Model;
 
 namespace Arstive.Display.Element
 {
@@ -33,42 +36,32 @@ namespace Arstive.Display.Element
             DependencyProperty.Register(nameof(BindingKey), typeof(Key), typeof(JudgmentAngleDisplay), new PropertyMetadata(new KeyConverter().ConvertFrom("W")));
 
         /// <summary>
-        /// Determine the angle of rotation on the left
+        /// Determine the angle of rotation
         /// side of the judgment angle
         /// </summary>
-        public int LeftRotateAngle
+        public int RotateAngle
         {
-            get => (int)GetValue(LeftRotateAngleProperty);
-            set => SetValue(LeftRotateAngleProperty, value);
-        }
-
-
-        /// <summary>
-        /// <inheritdoc cref="LeftRotateAngle"/>
-        /// </summary>
-        public static readonly DependencyProperty LeftRotateAngleProperty =
-            DependencyProperty.Register(nameof(LeftRotateAngle), typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(-45));
-
-
-        /// <summary>
-        /// Determine the angle of rotation on the right
-        /// side of the judgment angle
-        /// </summary>
-        public int RightRotateAngle
-        {
-            get => (int)GetValue(RightRotateAngleProperty);
-            set => SetValue(RightRotateAngleProperty, value);
+            get => (int)GetValue(RotateAngleProperty);
+            set => SetValue(RotateAngleProperty, value);
         }
 
         /// <summary>
-        /// <inheritdoc cref="RightRotateAngle"/>
+        /// <inheritdoc cref="RotateAngle"/>
         /// </summary>
-        public static readonly DependencyProperty RightRotateAngleProperty =
-            DependencyProperty.Register("LeftRotate", typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(45));
+        public static readonly DependencyProperty RotateAngleProperty =
+            DependencyProperty.Register("RotateAngle", typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(45));
 
         /// <summary>
         /// Index of current judgment angle
         /// </summary>
         public int Index { get; set; }
+
+        /// <summary>
+        /// Determine the relative speed of online notes, with
+        /// 200 pixels per second as 1
+        /// </summary>
+        public int Speed;
+
+        public List<Interfaces.NoteBase> NoteLists;
     }
 }

@@ -39,9 +39,9 @@ namespace Arstive.Model
             public int HitTime { get; set; }
 
             /// <summary>
-            /// Relative flow velocity of musical notes·
+            /// The Index of note relative to the current judgment angle
             /// </summary>
-            public int Speed { get; set; }
+            public int Index{ get; set; }
         }
     }
 }

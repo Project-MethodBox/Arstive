@@ -1,15 +1,16 @@
-﻿using Arstive.Display.Element.Element;
+﻿using Arstive.Display.Element;
+using Arstive.Display.Element;
 using Microsoft.Extensions.ObjectPool;
 
 namespace Arstive.Model.ObjectPool
 {
-    internal class NotePooledObjectPolicy : IPooledObjectPolicy<NoteDisplay>
+    internal class NotePooledObjectPolicy : IPooledObjectPolicy<INoteDisplay>
     {
-        public NoteDisplay Create()
+        public INoteDisplay Create()
         {
-            return new NoteDisplay();
+            return new TapDisplay();
         }
 
-        public bool Return(NoteDisplay note) => true;
+        public bool Return(INoteDisplay note) => true;
     }
 }

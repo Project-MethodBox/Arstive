@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Arstive"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="GameWindow"
-    Title="Arstive"
+    Title="Framework - Game"
     Width="1150"
     Height="710"
     Loaded="MainWindow_OnLoaded"

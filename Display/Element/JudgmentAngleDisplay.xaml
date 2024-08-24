@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="_this"
     Width="140"
-    Height="140"
-    d:DesignHeight="140"
+    Height="1500"
+    d:DesignHeight="1500"
     d:DesignWidth="140"
     DataContext="{Binding ElementName=_this}"
     mc:Ignorable="d">
@@ -18,56 +18,64 @@
         <converter:KeyConverter x:Key="KeyConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel Margin="10,0,0,0">
-            <!--  Left side  -->
-            <Rectangle
-                Width="10"
-                Height="80"
-                Fill="White"
-                RadiusX="5"
-                RadiusY="5"
-                Stroke="White"
-                StrokeThickness="2">
-                <Rectangle.RenderTransform>
-                    <RotateTransform d:Angle="-45" Angle="{Binding Path=LeftRotateAngle, Mode=TwoWay}" CenterY="80" />
-                </Rectangle.RenderTransform>
-            </Rectangle>
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <RotateTransform Angle="{Binding RotateAngle}" CenterX="70" CenterY="1500" />
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <StackPanel Name="MainPanel" Margin="0">
+            <!--  Angle  -->
+            <StackPanel Margin="10,1360,0,0">
+                <!--  Left side  -->
+                <Rectangle
+                    Width="10"
+                    Height="80"
+                    Fill="White"
+                    RadiusX="5"
+                    RadiusY="5"
+                    Stroke="White"
+                    StrokeThickness="2">
+                    <Rectangle.RenderTransform>
+                        <RotateTransform d:Angle="-45" Angle="-45" CenterY="80" />
+                    </Rectangle.RenderTransform>
+                </Rectangle>
 
-            <!--  Right angle  -->
-            <Rectangle
-                x:Name="AngleLeft"
-                Width="10"
-                Height="80"
-                Fill="White"
-                RadiusX="5"
-                RadiusY="5"
-                Stroke="White"
-                StrokeThickness="2">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <RotateTransform d:Angle="45" Angle="{Binding Path=RightRotateAngle, Mode=TwoWay}" CenterY="80" />
-                        <TranslateTransform X="-5" Y="-87" />
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
+                <!--  Right angle  -->
+                <Rectangle
+                    x:Name="AngleLeft"
+                    Width="10"
+                    Height="80"
+                    Fill="White"
+                    RadiusX="5"
+                    RadiusY="5"
+                    Stroke="White"
+                    StrokeThickness="2">
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform d:Angle="45" Angle="45" CenterY="80" />
+                            <TranslateTransform X="-5" Y="-87" />
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+                <Border
+                    Width="40"
+                    BorderBrush="White"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <Border.RenderTransform>
+                        <TranslateTransform Y="-70" />
+                    </Border.RenderTransform>
+                    <TextBlock
+                        d:Text="W"
+                        FontFamily="Consolas"
+                        FontSize="30"
+                        Foreground="White"
+                        Text="{Binding BindingKey, Converter={StaticResource KeyConverter}}"
+                        TextAlignment="Center" />
+                </Border>
+            </StackPanel>
 
             <!--  Key information  -->
-            <Border
-                Width="40"
-                BorderBrush="White"
-                BorderThickness="2"
-                CornerRadius="5">
-                <Border.RenderTransform>
-                    <TranslateTransform Y="-70" />
-                </Border.RenderTransform>
-                <TextBlock
-                    d:Text="W"
-                    FontFamily="Consolas"
-                    FontSize="30"
-                    Foreground="White"
-                    Text="{Binding BindingKey, Converter={StaticResource KeyConverter}}"
-                    TextAlignment="Center" />
-            </Border>
         </StackPanel>
     </Grid>
 </UserControl>
