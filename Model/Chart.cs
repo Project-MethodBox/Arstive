@@ -33,8 +33,7 @@ namespace Arstive.Model
         /// <summary>
         /// List of judgment angles
         /// </summary>
-        [JsonPropertyName("judgment_angles")]
+        [JsonPropertyName("judgment_angles")] 
         public List<JudgmentAngle> JudgmentAngles;
-
     }
 }
