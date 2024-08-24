@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 
@@ -42,13 +43,9 @@ namespace Arstive.Controller
         internal static void LoadChart(string path, Action<UIElement> addControl)
         {
             var tap = new Notes.Tap();
-            tap.HitTime = 11000;
+            tap.HitTime = 3330;
             tap.JudgmentAngleIndex = 0;
             tap.Index = 1;
-            var tap2 = new Notes.Tap();
-            tap2.HitTime = 3520;
-            tap2.JudgmentAngleIndex = 1;
-            tap2.Index = 2;
             var chart = new Chart
             {
                 BasicInfo = new()
@@ -61,8 +58,8 @@ namespace Arstive.Controller
                     Version = "1.0.0"
                 },
                 JudgmentAngles = [
-                    new(Key.A,0, 2,[tap],null,(-90,-840)),
-                    new(Key.X,1,2, [tap2],null,(-590,-940))
+                    new(Key.A,0, 3,[tap],null,(-90,-840)),
+                    //new(Key.X,1,2, [tap2],null,(-590,-940))
                 ]
             };
 
@@ -110,6 +107,10 @@ namespace Arstive.Controller
             // Can determine Tap notes
             var tap = false;
 
+            // The notes that have already been created are used to determine
+            var judgmentList = new List<Interfaces.NoteBase>();
+
+            // Down time
             var flootTime = 1410 / (double)(200 * (angle.Speed));
 
             // Capture Dispather for thread synchronization
@@ -146,7 +147,7 @@ namespace Arstive.Controller
                     {
                         return;
                     }
-                    for (int i = 0;i < angle.NoteLists.Count;i++)
+                    for (int i = 0; i < angle.NoteLists.Count; i++)
                     {
                         var note = angle.NoteLists[i];
                         int deltaAnimation = note.HitTime - ticksInternal;
@@ -187,6 +188,7 @@ namespace Arstive.Controller
                                 angle.MainPanel.Children.Add(tapInstance);
 
                                 storyBoard.Begin(angle.MainPanel);
+                                judgmentList.Add(note);
                                 angle.NoteLists.Remove(note);
                             }
                         }
@@ -196,49 +198,47 @@ namespace Arstive.Controller
                         }
                     }
 
+                    // Enter judgment
+                    // Find nearest note
+                    var length = judgmentList!.Count >= 3 ? 3 : judgmentList.Count;
+                    for (var i = 0; i < length; i++)
+                    {
+
+                        // Judgment interval:
+                        // [-60,60]ms => P
+                        // [-120,120]ms => G
+                        // [-250,250]ms => B
+                        // <-250 or >250 ms => Not making a judgment
+                        if (judgmentList!.Count == 0)
+                        {
+                            // The judgment line is used up, recycle it
+                            continue;
+                        }
+
+                        // Calculate time difference
+                        if (judgmentList[i].GetType() == typeof(Notes.Tap)
+                            && tap)
+                        {
+                            int delta = judgmentList[i].HitTime - ticks - 1100;
+                            if (delta is <= 250 and >= -250)
+                            {
+                                // o.O
+                                System.Media.SystemSounds.Asterisk.Play();
+                                Score += delta switch
+                                {
+                                    >= -60 and <= 60 => 2000,
+                                    >= -120 and <= 120 => 1200,
+                                    _ => 0
+                                };
+                                // Reset flag and recycle note
+                                tap = false;
+                                judgmentList.RemoveAt(i);
+                            }
+                        }
+                    }
                 });
 
                 Thread.Sleep(10);
-                //// Find nearest note
-                //for (int i = 0; i < 3; i++)
-                //{
-
-                //    // Judgment interval:
-                //    // [-60,60]ms => P
-                //    // [-120,120]ms => G
-                //    // [-250,250]ms => B
-                //    // <-250 or >250 ms => Not making a judgment
-                //    if (angle.NoteLists!.Count == 0)
-                //    {
-                //        // The judgment line is used up, recycle it
-                //        return;
-                //    }
-
-                //    // Calculate time difference
-                //    if (angle.NoteLists![i].GetType() == typeof(Notes.Tap)
-                //        && tap)
-                //    {
-                //        int delta = angle.NoteLists![i].HitTime - ticks;
-                //        if (delta <= 250 && delta >= -250)
-                //        {
-                //            Score += delta switch
-                //            {
-                //                >= -60 and <= 60 => 2000,
-                //                >= -120 and <= 120 => 1200,
-                //                _ => 0
-                //            };
-                //        }
-
-                //        // Reset flag and recycle note
-                //        tap = false;
-                //        angle.NoteLists.RemoveAt(i);
-                //    }
-
-                //}
-
-                // Enter animate
-
-
             }
         }
     }

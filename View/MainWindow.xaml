@@ -15,7 +15,7 @@
 
     <!--  Binding score,etc.  -->
     <Window.Resources>
-        <controller:GameController x:Key="game" />
+        <controller:GameController x:Key="Game" />
     </Window.Resources>
 
     <Grid Name="GameGrid">
@@ -26,15 +26,7 @@
             FontFamily="Consolas"
             FontSize="30"
             Foreground="White"
-            Text="000000" />
-        <TextBlock
-            Name="Ticks"
-            Margin="10,640,10,10"
-            d:Text="0"
-            FontFamily="Consolas"
-            FontSize="20"
-            Foreground="White"
-            Text="{Binding Source={StaticResource game}, Path=TimeTick}" />
+            Text="{Binding Source={StaticResource Game}, Path=Score}" />
     </Grid>
     <Window.Background>
         <SolidColorBrush Color="Black" />
