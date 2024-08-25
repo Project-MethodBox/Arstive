@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Arstive.Model;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using Arstive.Model;
 
 namespace Arstive.Display.Element
 {
@@ -39,9 +37,9 @@ namespace Arstive.Display.Element
         /// Determine the angle of rotation
         /// side of the judgment angle
         /// </summary>
-        public int RotateAngle
+        public double RotateAngle
         {
-            get => (int)GetValue(RotateAngleProperty);
+            get => (double)GetValue(RotateAngleProperty);
             set => SetValue(RotateAngleProperty, value);
         }
 
@@ -49,7 +47,7 @@ namespace Arstive.Display.Element
         /// <inheritdoc cref="RotateAngle"/>
         /// </summary>
         public static readonly DependencyProperty RotateAngleProperty =
-            DependencyProperty.Register("RotateAngle", typeof(int), typeof(JudgmentAngleDisplay), new PropertyMetadata(45));
+            DependencyProperty.Register(nameof(RotateAngle), typeof(double), typeof(JudgmentAngleDisplay), new PropertyMetadata(45d));
 
         /// <summary>
         /// Index of current judgment angle
@@ -62,6 +60,14 @@ namespace Arstive.Display.Element
         /// </summary>
         public int Speed;
 
-        public List<Interfaces.NoteBase> NoteLists;
+        /// <summary>
+        /// All Notes bound to Judge Angle
+        /// </summary>
+        public List<Interfaces.NoteBase> NoteList;
+
+        /// <summary>s
+        /// All Notes bound to Judge Angle
+        /// </summary>
+        public List<Interfaces.ElementEventBase> EventList;
     }
 }

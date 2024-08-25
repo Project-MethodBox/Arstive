@@ -7,23 +7,20 @@ namespace Arstive.Model
         /// <summary>
         /// Public interface for all event in the game
         /// </summary>
-        public abstract class ElementEventBase
+        public abstract class ElementEventBase(
+            double startTime,
+            Duration duration)
         {
             /// <summary>
             /// The number of milliseconds between the start of the game
             /// and the triggering of the event
             /// </summary>
-            internal double StartTime { get; set; }
+            internal double StartTime { get; set; } = startTime;
 
             /// <summary>
             /// The time elapsed for the complete operation of the event
             /// </summary>
-            internal Duration Duration { get; set; }
-
-            /// <summary>
-            /// Type of current event
-            /// </summary>
-            internal ElementEvent.ElementEventType EventType { get; set; }
+            internal Duration Duration { get; set; } = duration;
         }
         
         public abstract class NoteBase

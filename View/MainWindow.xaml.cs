@@ -13,6 +13,7 @@ namespace Arstive
             InitializeComponent();
 
             this.DataContext = this;
+            GameController.MainWindow = this;
         }
 
         public void AddControl(UIElement element)
