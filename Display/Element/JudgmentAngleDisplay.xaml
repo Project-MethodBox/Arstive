@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <converter:KeyConverter x:Key="KeyConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Visibility="{Binding AngleVisibility}">
         <Grid.RenderTransform>
             <TransformGroup>
                 <RotateTransform Angle="{Binding RotateAngle}" CenterX="70" CenterY="1500" />
@@ -30,7 +30,7 @@
                 <Rectangle
                     Width="10"
                     Height="80"
-                    Fill="White"
+                    Fill="#F4FFFFFF"
                     RadiusX="5"
                     RadiusY="5"
                     Stroke="White"

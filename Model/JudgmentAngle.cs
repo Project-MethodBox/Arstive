@@ -1,8 +1,9 @@
-﻿using System.Windows.Input;
-using static Arstive.Model.Interfaces;
+﻿using System.Text.Json.Serialization;
+using System.Windows.Input;
 
 namespace Arstive.Model
 {
+    [Serializable]
     public class JudgmentAngle(Key bindingKey, int index, int speed,
         List<Interfaces.NoteBase>? noteList,
         List<Interfaces.ElementEventBase>? eventList, (int,int) position)
@@ -10,11 +11,14 @@ namespace Arstive.Model
         /// <summary>
         /// Keyboard keys that trigger judgment
         /// </summary>
+        [JsonPropertyName("binding_key")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Key BindingKey { get; set; } = bindingKey;
 
         /// <summary>
         /// Index of current judgment angle
         /// </summary>
+        [JsonPropertyName("index")]
         public int Index { get; set; } = index;
 
         /// <summary>

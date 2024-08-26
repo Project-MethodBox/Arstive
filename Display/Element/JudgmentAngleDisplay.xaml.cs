@@ -1,4 +1,5 @@
-﻿using Arstive.Model;
+﻿using System.Runtime.CompilerServices;
+using Arstive.Model;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,12 +27,26 @@ namespace Arstive.Display.Element
             set => SetValue(BindingKeyProperty, value);
         }
 
-
         /// <summary>
         /// <inheritdoc cref="BindingKey"/>
         /// </summary>
         public static readonly DependencyProperty BindingKeyProperty =
             DependencyProperty.Register(nameof(BindingKey), typeof(Key), typeof(JudgmentAngleDisplay), new PropertyMetadata(new KeyConverter().ConvertFrom("W")));
+
+        /// <summary>
+        /// Indicate whether the judgment angle is visible
+        /// </summary>
+        public Visibility AngleVisibility
+        {
+            get => (Visibility)GetValue(AngleVisibilityProperty);
+            set => SetValue(AngleVisibilityProperty, value);
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="AngleVisibility"/>
+        /// </summary>
+        public static readonly DependencyProperty AngleVisibilityProperty =
+            DependencyProperty.Register(nameof(AngleVisibility), typeof(Visibility), typeof(JudgmentAngleDisplay), new PropertyMetadata(System.Windows.Visibility.Visible));
 
         /// <summary>
         /// Determine the angle of rotation

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Media;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -20,6 +21,12 @@ namespace Arstive.Controller
         private static Dispatcher? _dispather;
         internal static MainWindow? MainWindow;
         private static int _score = 0;
+
+        /// <summary>
+        /// When any judgment entity exists, block to avoid
+        /// entering the end of the game
+        /// </summary>
+        private static Barrier? _Barrier;
 
         /// <summary>
         /// User score used to bind to the main window
@@ -47,6 +54,10 @@ namespace Arstive.Controller
 
             // Load chart to window
             var indexKeyParis = new Dictionary<int, Key>();
+
+            // Initialize barrier
+            _Barrier = new(chart.JudgmentAngles.Count);
+
             foreach (var judgmentAngle in chart.JudgmentAngles)
             {
                 indexKeyParis.Add(judgmentAngle.Index, judgmentAngle.BindingKey);
@@ -130,12 +141,14 @@ namespace Arstive.Controller
                     if (Keyboard.IsKeyUp(angle.BindingKey) && tap)
                         tap = false;
 
+                    //// Wait for suicide
+                    //if (angle.NoteList.Count == 0)
+                    //{
+                    //    _Barrier!.SignalAndWait();
+                    //    return;
+                    //}
+
                     // Note animation
-                    if (angle.NoteList is null)
-                    {
-                        return;
-                    }
-                    
                     for (int i = 0; i < angle.NoteList.Count; i++)
                     {
                         var note = angle.NoteList[i];
@@ -144,40 +157,62 @@ namespace Arstive.Controller
                         // Need create
                         if (deltaAnimation <= flootTime * 1000)
                         {
-                            if (note.GetType() == typeof(Notes.Tap))
+                            // Create note instance
+                            UserControl? noteInstance = note switch
                             {
-                                // Create tap instance
-                                var tapInstance = new TapDisplay
+                                Notes.Tap _ => new TapDisplay
                                 {
                                     Index = note.Index,
                                     Name = $"tapInstance{angle.Index}T{note.Index}",
                                     Margin = new(0, -1360, 0, 0)
-                                };
-
-                                angle.MainPanel.RegisterName(tapInstance.Name, tapInstance);
-
-                                // Create double animation
-                                var downAnimation = new ThicknessAnimation(new(0, -1360, 0, 0),
-                                    new(-0, -315, 0, 0),
-                                    new Duration(TimeSpan.FromMilliseconds(flootTime * 1000)))
+                                },
+                                Notes.Drag _ => new DragDisplay()
                                 {
-                                    AutoReverse = false
-                                };
+                                    Index = note.Index,
+                                    Name = $"dragInstance{angle.Index}T{note.Index}",
+                                    Margin = new(0, -1360, 0, 0)
+                                },
+                                Notes.Hold hold => new HoldDisplay()
+                                {
+                                    Index = note.Index,
+                                    Name = $"holdInstance{angle.Index}T{note.Index}",
+                                    Margin = new(0, -1360, 0, 0),
+                                    Length = ((hold.EndTime - hold.HitTime) * (200 * (angle.Speed)))/1000 + 40
+                                },
+                                _ => null
+                            };
 
-                                // Binding animation via story board
-                                var storyBoard = new Storyboard();
-                                storyBoard.Children.Add(downAnimation);
-                                Storyboard.SetTargetName(downAnimation, tapInstance.Name);
-                                Storyboard.SetTargetProperty(downAnimation,
-                                    new(FrameworkElement.MarginProperty));
+                            angle.MainPanel.RegisterName(noteInstance!.Name, noteInstance);
 
-                                // Add to angle
-                                angle.MainPanel.Children.Add(tapInstance);
-
-                                storyBoard.Begin(angle.MainPanel);
-                                judgmentList.Add(note);
-                                angle.NoteList.Remove(note);
+                            // Create double animation
+                            var startPosition = -1360;
+                            if (note.GetType() == typeof(Notes.Hold))
+                            {
+                                startPosition -= (((Notes.Hold)note).EndTime - note.HitTime) * 
+                                                 (200 * (angle.Speed))/1000;
                             }
+
+                            var downAnimation = new ThicknessAnimation(new(0, startPosition, 0, 0),
+                                new(-0, -315, 0, 0),
+                                new Duration(TimeSpan.FromMilliseconds(flootTime * 1000)))
+                            {
+                                AutoReverse = false
+                            };
+
+                            // Binding animation via story board
+                            var storyBoard = new Storyboard();
+                            storyBoard.Children.Add(downAnimation);
+                            Storyboard.SetTargetName(downAnimation, noteInstance.Name);
+                            Storyboard.SetTargetProperty(downAnimation,
+                                new(FrameworkElement.MarginProperty));
+
+                            // Add to angle
+                            angle.MainPanel.Children.Add(noteInstance);
+
+                            storyBoard.Begin(angle.MainPanel);
+                            judgmentList.Add(note);
+                            angle.NoteList.Remove(note);
+
                         }
                         else
                         {
@@ -200,18 +235,30 @@ namespace Arstive.Controller
                         {
                             int delta = judgmentList[i].HitTime - ticksLocal - 140;
                             Trace.WriteLine($"#{i}:{delta}");
-                            if (delta is <= 250 and >= -250)
+                            if (delta is <= 420 and >= -420)
                             {
                                 // o.O
                                 System.Media.SystemSounds.Asterisk.Play();
                                 Score += delta switch
                                 {
-                                    >= -60 and <= 60 => 2000,
-                                    >= -120 and <= 120 => 1200,
+                                    >= -120 and <= 120 => 2000,
+                                    >= -240 and <= 240 => 1200,
                                     _ => 0
                                 };
                                 // Reset flag and recycle note
                                 tap = false;
+                                angle.MainPanel.Children.RemoveAt(1);
+                                judgmentList.RemoveAt(i);
+                            }
+                        }
+                        else if (judgmentList[i].GetType() == typeof(Notes.Drag) && pressed)
+                        {
+                            var delta = judgmentList[i].HitTime - ticksLocal - 140;
+                            if (delta is <= 120 and >= -120)
+                            {
+                                // Only have judgment perfect
+                                System.Media.SystemSounds.Asterisk.Play();
+                                Score += 2000;
                                 angle.MainPanel.Children.RemoveAt(1);
                                 judgmentList.RemoveAt(i);
                             }
@@ -239,12 +286,19 @@ namespace Arstive.Controller
                                 // Register in MainWindow
                                 MainWindow!.GameGrid.RegisterName(angle.Name, angle);
 
+                                // Add easing function
+                                if (moveEvent.Easing is not null)
+                                {
+                                    moveAnimation.EasingFunction = moveEvent.Easing.GetEasingFunction();
+                                }
+
                                 // Binding animation via story board
                                 var storyBoard = new Storyboard();
                                 storyBoard.Children.Add(moveAnimation);
                                 Storyboard.SetTargetName(moveAnimation, angle.Name);
                                 Storyboard.SetTargetProperty(moveAnimation,
                                     new(FrameworkElement.MarginProperty));
+
                                 storyBoard.Begin(MainWindow.GameGrid);
 
                                 // Remove processed events from the head
@@ -266,6 +320,12 @@ namespace Arstive.Controller
                                 // Register in MainWindow
                                 MainWindow!.GameGrid.RegisterName(angle.Name, angle);
 
+                                // Add easing function
+                                if (rotateEvent.Easing is not null)
+                                {
+                                    rotateAnimation.EasingFunction = rotateEvent.Easing.GetEasingFunction();
+                                }
+
                                 // Binding animation via story board
                                 var storyBoard = new Storyboard();
                                 storyBoard.Children.Add(rotateAnimation);
@@ -278,10 +338,18 @@ namespace Arstive.Controller
                                 MainWindow!.GameGrid.UnregisterName(angle.Name);
                                 angle.EventList.RemoveAt(0);
                             }
+                            else if (angle.EventList[i].GetType() == typeof(ElementEvent.VisibleEvent))
+                            {
+                                // Create event instance
+                                var visibleEvent = (ElementEvent.VisibleEvent)angle.EventList[i];
+
+                                // Set new state
+                                angle.Visibility = visibleEvent.Visibility ? Visibility.Visible : Visibility.Hidden;
+                                angle.EventList.RemoveAt(0);
+                            }
                         }
                     }
                 });
-
                 Thread.Sleep(10);
             }
         }

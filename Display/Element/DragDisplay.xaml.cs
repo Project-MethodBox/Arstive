@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Arstive.Display.Element
 {
     /// <summary>
-    /// TapDisplay.xaml 的交互逻辑
+    /// DragDisplay.xaml 的交互逻辑
     /// </summary>
-    public partial class TapDisplay : UserControl, INoteDisplay
+    public partial class DragDisplay : UserControl,INoteDisplay
     {
-        public TapDisplay()
+        public DragDisplay()
         {
             InitializeComponent();
         }

@@ -1,26 +1,35 @@
-﻿using System.Windows;
+﻿using System.Text.Json.Serialization;
+using System.Windows;
 
 namespace Arstive.Model
 {
     public class Interfaces
     {
+      
         /// <summary>
         /// Public interface for all event in the game
         /// </summary>
+        [Serializable]
         public abstract class ElementEventBase(
             double startTime,
-            Duration duration)
+            Duration duration,Easing? easing = null)
         {
             /// <summary>
             /// The number of milliseconds between the start of the game
             /// and the triggering of the event
             /// </summary>
+            [JsonPropertyName("start_time")]
             internal double StartTime { get; set; } = startTime;
 
             /// <summary>
             /// The time elapsed for the complete operation of the event
             /// </summary>
             internal Duration Duration { get; set; } = duration;
+
+            /// <summary>
+            /// Types of event easing
+            /// </summary>
+            internal Easing? Easing = easing;
         }
         
         public abstract class NoteBase

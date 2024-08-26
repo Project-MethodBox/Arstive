@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -37,12 +38,13 @@ namespace Arstive.Model
         /// Chart difficulty level
         /// </summary>
         [JsonPropertyName("difficulty_name")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ChartDifficulty ChartDifficultyName;
 
         /// <summary>
         /// Chart difficulty  
         /// </summary>
-        [JsonPropertyName("difficulty")]
+        [JsonPropertyName("difficulty_num")]
         public double ChartDifficultyNumber { get; set; }
     }
 
