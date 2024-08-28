@@ -29,25 +29,54 @@ namespace Arstive.Model
             /// <summary>
             /// Types of event easing
             /// </summary>
+            [JsonPropertyName("easing")]
             internal Easing? Easing = easing;
         }
-        
-        public abstract class NoteBase
-        {
-            /// <summary>
-            /// Index of determining the angle to which the note belongs
-            /// </summary>
-            public int JudgmentAngleIndex { get; set; }
 
+        public interface INote
+        {
             /// <summary>
             /// The time when the Note was hit, measured in ten milliseconds
             /// </summary>
+            [JsonPropertyName("hit_time")]
             public int HitTime { get; set; }
 
             /// <summary>
             /// The Index of note relative to the current judgment angle
             /// </summary>
+            [JsonPropertyName("index")]
+            public int Index { get; set; }
+        }
+
+        public abstract class FreeNote : INote
+        {
+            [JsonPropertyName("hit_time")]
+            public int HitTime { get; set; }
+
+            [JsonPropertyName("index")]
             public int Index{ get; set; }
+
+            /// <summary>
+            /// Time when the note start judge
+            /// </summary>
+            [JsonPropertyName("start_time")]
+            public int StartTime { get; set; }
+        }
+
+        public abstract class BindNote: INote
+        {
+            [JsonPropertyName("hit_time")]
+            public int HitTime { get; set; }
+
+            [JsonPropertyName("index")]
+            public int Index { get; set; }
+
+            /// <summary>
+            /// Index of determining the angle to which the note belongs
+            /// </summary>
+            [JsonPropertyName("index")]
+            public int JudgmentAngleIndex { get; set; }
+
         }
     }
 }

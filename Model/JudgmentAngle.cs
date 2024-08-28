@@ -5,7 +5,7 @@ namespace Arstive.Model
 {
     [Serializable]
     public class JudgmentAngle(Key bindingKey, int index, int speed,
-        List<Interfaces.NoteBase>? noteList,
+        List<Interfaces.BindNote>? noteList,
         List<Interfaces.ElementEventBase>? eventList, (int,int) position)
     {
         /// <summary>
@@ -29,7 +29,7 @@ namespace Arstive.Model
         /// <summary>
         /// List of notes bound to Judgment Angle
         /// </summary>
-        public List<Interfaces.NoteBase>? NoteLists { get; set; } = noteList;
+        public List<Interfaces.BindNote>? NoteLists { get; set; } = noteList;
 
         /// <summary>
         /// Determine the initialization relative position of the angle

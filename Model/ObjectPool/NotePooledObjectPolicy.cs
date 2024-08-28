@@ -1,5 +1,4 @@
 ﻿using Arstive.Display.Element;
-using Arstive.Display.Element;
 using Microsoft.Extensions.ObjectPool;
 
 namespace Arstive.Model.ObjectPool

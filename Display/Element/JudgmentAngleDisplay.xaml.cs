@@ -78,7 +78,7 @@ namespace Arstive.Display.Element
         /// <summary>
         /// All Notes bound to Judge Angle
         /// </summary>
-        public List<Interfaces.NoteBase> NoteList;
+        public List<Interfaces.BindNote> NoteList;
 
         /// <summary>s
         /// All Notes bound to Judge Angle

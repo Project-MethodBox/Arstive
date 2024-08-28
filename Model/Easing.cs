@@ -99,7 +99,8 @@ namespace Arstive.Model
             var funcName = this.EasingFunction.ToString();
             var easingFunction = 
                 Type.GetType($"System.Windows.Media.Animation.{funcName}," +
-                             $"PresentationCore, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35");
+                             $"PresentationCore, Version=8.0.0.0, Culture=neutral, " +
+                             $"PublicKeyToken=31bf3856ad364e35");
             var easing = (EasingFunctionBase)Activator.CreateInstance(easingFunction!)!;
             easing.EasingMode = this.EasingMode;
             return easing;

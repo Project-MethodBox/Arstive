@@ -29,13 +29,13 @@ namespace Arstive.Model
             internal int EndAngle = endAngle;
         }
 
-        internal class VisibleEvent(double startTime, Duration duration, int endAngle) : Interfaces.ElementEventBase(startTime, duration)
+        internal class VisibleEvent(double startTime, bool visibility) : Interfaces.ElementEventBase(startTime,new(),null)
         {
             /// <summary>
             /// Visible state of judgment angle
             /// </summary>
             [JsonPropertyName("visibility")]
-            internal bool Visibility;
+            internal bool Visibility = visibility;
         }
     }
 

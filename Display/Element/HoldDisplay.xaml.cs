@@ -20,11 +20,12 @@ namespace Arstive.Display.Element
     /// </summary>
     public partial class HoldDisplay : UserControl,INoteDisplay
     {
-        public HoldDisplay()
+        public HoldDisplay(int length)
         {
-            InitializeComponent();
-
+            this.Length = length;
             this.DataContext = this;
+
+            InitializeComponent();
         }
 
         public int Index { get; set; }

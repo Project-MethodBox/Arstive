@@ -5,6 +5,7 @@
     xmlns:controller="clr-namespace:Arstive.Controller"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Arstive"
+    xmlns:m="clr-namespace:Arstive.Model"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="GameWindow"
     Title="Framework - Game"
@@ -16,17 +17,32 @@
     <!--  Binding score,etc.  -->
     <Window.Resources>
         <controller:GameController x:Key="Game" />
+        <m:Chart x:Key="Chart" />
     </Window.Resources>
 
     <Grid Name="GameGrid">
-        <StackPanel Orientation="Vertical" />
-        <TextBlock
-            Margin="10"
-            HorizontalAlignment="Right"
-            FontFamily="Consolas"
-            FontSize="30"
-            Foreground="White"
-            Text="{Binding Source={StaticResource Game}, Path=Score}" />
+        <DockPanel>
+            <TextBlock
+                Margin="10"
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Top"
+                FontFamily="Consolas"
+                FontSize="30"
+                Foreground="White"
+                Text="{Binding Source={StaticResource Game}, Path=Score}" />
+            <Rectangle
+                Width="2"
+                Height="550"
+                DockPanel.Dock="Top"
+                Fill="Transparent" />
+            <TextBlock
+                Name="Song"
+                Margin="20"
+                DockPanel.Dock="Bottom"
+                FontFamily="Consolas"
+                FontSize="25"
+                Foreground="White" />
+        </DockPanel>
     </Grid>
     <Window.Background>
         <SolidColorBrush Color="Black" />
