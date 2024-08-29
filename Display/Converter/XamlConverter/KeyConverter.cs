@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace Arstive.Display.Converter
+namespace Arstive.Display.Converter.XamlConverter
 {
     public class KeyConverter : IValueConverter
     {

@@ -8,35 +8,42 @@ namespace Arstive.Model
         /// <summary>
         /// Event that causes an element to move
         /// </summary>
-        internal class MoveEvent(double startTime, Duration duration, (int, int) destination, Easing? easing = null) : Interfaces.ElementEventBase(startTime, duration, easing)
+        public class MoveEvent : Interfaces.ElementEventBase
         {
             /// <summary>
             /// The endpoint of element movement
             /// </summary>
-            [JsonPropertyName("dest")]
-            internal (int, int) Destination = destination;
+            [JsonPropertyName("dest")] 
+            public (int, int) Destination { get; set; }
         }
 
         /// <summary>
         /// Event that causes an element to rotate
         /// </summary>
-        internal class RotateEvent(double startTime, Duration duration, int endAngle, Easing? easing = null) : Interfaces.ElementEventBase(startTime, duration, easing)
+        public class RotateEvent : Interfaces.ElementEventBase
         {
             /// <summary>
             /// The endpoint to which the angle rotates
             /// </summary>
             [JsonPropertyName("end_angle")]
-            internal int EndAngle = endAngle;
+            public int EndAngle { get; set; }
         }
 
-        internal class VisibleEvent(double startTime, bool visibility) : Interfaces.ElementEventBase(startTime,new(),null)
+        public class VisibleEvent : Interfaces.ElementEventBase
         {
             /// <summary>
             /// Visible state of judgment angle
             /// </summary>
-            [JsonPropertyName("visibility")]
-            internal bool Visibility = visibility;
+            [JsonPropertyName("visibility")] 
+            public bool Visibility { get; set; }
+        }
+
+        public enum ElementEventType
+        {
+            Move,
+            Rotate,
+            Visible,
+            Color
         }
     }
-
 }

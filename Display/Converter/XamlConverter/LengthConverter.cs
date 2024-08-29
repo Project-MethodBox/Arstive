@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace Arstive.Display.Converter
+namespace Arstive.Display.Converter.XamlConverter
 {
     internal class LengthConverter : IValueConverter
     {

@@ -21,9 +21,10 @@ namespace Arstive.Model
             /// </summary>
             [JsonIgnore]
             public bool IsJudgment { get; set; } = true;
+            
         }
 
-        public class Flick : Interfaces.FreeNote 
+        public class Flick() : Interfaces.FreeNote(Notes.NoteType.Flick)
         {
             /// <summary>
             /// Start key of flick

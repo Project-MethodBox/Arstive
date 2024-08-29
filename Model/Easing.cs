@@ -12,7 +12,7 @@ namespace Arstive.Model
     /// <summary>
     /// Related configurations of easing functions
     /// </summary>
-    public class Easing(EasingFunctionType easingType, EasingMode easingMode)
+    public class Easing
     {
         /// <summary>
         /// Type of easing function
@@ -84,7 +84,7 @@ namespace Arstive.Model
         /// </summary>
         [JsonPropertyName("easing_func")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public EasingFunctionType EasingFunction { get; set; } = easingType;
+        public EasingFunctionType EasingFunction { get; set; }
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Arstive.Model
         /// </summary>
         [JsonPropertyName("easing_mode")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public EasingMode EasingMode = easingMode;
+        public EasingMode EasingMode { get; set; }
 
         internal EasingFunctionBase GetEasingFunction()
         {

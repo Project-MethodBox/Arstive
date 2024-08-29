@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using Arstive.Model.ObjectPool;
 
 namespace Arstive.Controller
 {
@@ -28,6 +27,9 @@ namespace Arstive.Controller
 
         internal static MainWindow? MainWindow;
         private static int _score = 0;
+
+        static SoundPlayer? _player = null;
+        
         private static volatile int _internalTick;
 
         private static int Tick
@@ -35,10 +37,10 @@ namespace Arstive.Controller
             get => _internalTick;
             set
             {
-                if (value == 0)
+                if (value >= 0  && _player is not null)
                 {
-                    var player = new SoundPlayer(Chart.Shared.BasicInfo!.SongName!);
-                    player.Play();
+                    _player.Play();
+                    _player = null;
                 }
                 _internalTick = value;
             }
@@ -68,12 +70,9 @@ namespace Arstive.Controller
         /// main window</param>
         internal static void LoadChart(string path, Action<UIElement> addControl)
         {
-
-            ChartTest.LoadTest();
+            Chart.Load("chart.json");
+            _player = new SoundPlayer(Chart.Shared.BasicInfo!.SongName!);
             var chart = Chart.Shared;
-
-            // Load chart to window
-            var indexKeyParis = new Dictionary<int, Key>();
 
             // Initialize barrier
             // Usage list:
@@ -88,8 +87,6 @@ namespace Arstive.Controller
 
             foreach (var judgmentAngle in chart.JudgmentAngles)
             {
-                indexKeyParis.Add(judgmentAngle.Index, judgmentAngle.BindingKey);
-
                 // Generate judgment angles
                 var w = judgmentAngle.Position.Item1;
                 var h = judgmentAngle.Position.Item2;
@@ -199,21 +196,21 @@ namespace Arstive.Controller
                         {
                             // Create note instance
                             // (Converter works in InitializeComponent)
-                            UserControl? noteInstance = note switch
+                            UserControl? noteInstance = note.NoteType switch
                             {
-                                Notes.Tap _ => new TapDisplay
+                                Notes.NoteType.Tap => new TapDisplay
                                 {
                                     Index = note.Index,
                                     Name = $"tapInstance{angle.Index}T{note.Index}",
                                     Margin = new(0, -1360, 0, 0)
                                 },
-                                Notes.Drag _ => new DragDisplay()
+                                Notes.NoteType.Drag => new DragDisplay()
                                 {
                                     Index = note.Index,
                                     Name = $"dragInstance{angle.Index}T{note.Index}",
                                     Margin = new(0, -1360, 0, 0)
                                 },
-                                Notes.Hold hold => new HoldDisplay(((hold.EndTime - hold.HitTime) * (200 * (angle.Speed)))/1000 + 40)
+                                Notes.NoteType.Hold => new HoldDisplay(((((Notes.Hold)note).EndTime - ((Notes.Hold)note).HitTime) * (200 * (angle.Speed)))/1000 + 40)
                                 {
                                     Index = note.Index,
                                     Name = $"holdInstance{angle.Index}T{note.Index}",
@@ -351,7 +348,7 @@ namespace Arstive.Controller
                     {
                         if (angle.EventList[i].StartTime <= Tick)
                         {
-                            if (angle.EventList[i].GetType() == typeof(ElementEvent.MoveEvent))
+                            if (angle.EventList[i].EventType == ElementEvent.ElementEventType.Move)
                             {
                                 // Create event instance
                                 var moveEvent = (ElementEvent.MoveEvent)angle.EventList[i];
@@ -386,7 +383,7 @@ namespace Arstive.Controller
                                 MainWindow!.GameGrid.UnregisterName(angle.Name);
                                 angle.EventList.RemoveAt(0);
                             }
-                            else if (angle.EventList[i].GetType() == typeof(ElementEvent.RotateEvent))
+                            else if (angle.EventList[i].EventType == ElementEvent.ElementEventType.Rotate)
                             {
                                 // Create event instance
                                 var rotateEvent = (ElementEvent.RotateEvent)angle.EventList[i];
@@ -419,7 +416,7 @@ namespace Arstive.Controller
                                 MainWindow!.GameGrid.UnregisterName(angle.Name);
                                 angle.EventList.RemoveAt(0);
                             }
-                            else if (angle.EventList[i].GetType() == typeof(ElementEvent.VisibleEvent))
+                            else if (angle.EventList[i].EventType == ElementEvent.ElementEventType.Visible)
                             {
                                 // Create event instance
                                 var visibleEvent = (ElementEvent.VisibleEvent)angle.EventList[i];
@@ -439,7 +436,6 @@ namespace Arstive.Controller
         {
             // TODO:Buffering pool
 
-
             // Block and synchronous
             _barrier.SignalAndWait();
 
@@ -448,76 +444,94 @@ namespace Arstive.Controller
             List<Interfaces.FreeNote> freeNoteList = (List<Interfaces.FreeNote>)freeNoteListState!;
 
             // Create instance
-            List<Interfaces.FreeNote> freeNoteJudgeList = (List<Interfaces.FreeNote>)freeNoteListState!;
+            List<Interfaces.FreeNote> freeNoteJudgeList = [];
 
-            for (int i = 0; i < freeNoteList.Count; i++)
+            _dispather ??= Application.Current.Dispatcher;
+
+            while (true)
             {
-                // Calculate time
-                // Think buffering time
-                (int actualStartTime, int actualHitTime) =
-                    (freeNoteList[i].StartTime + 500, freeNoteList[i].HitTime + 500);
-
-                // Judging time
-                var runningTime = actualHitTime - actualStartTime;
-
-                // Enter animation
-                if (runningTime >= Tick - actualStartTime)
+                _dispather.Invoke(() =>
                 {
-                    // Create instance
-                    if (freeNoteList[i].GetType() == typeof(Notes.Flick))
+                    for (int i = 0; i < freeNoteList.Count; i++)
                     {
-                        var flick = (Notes.Flick)freeNoteList[i];
-                        // Tree : FlickGrid => LayoutStack => Block(Animate caller)
-                        var flickInstance = new FlickDisplay
+                        // Calculate time
+                        // Think buffering time
+                        (int actualStartTime, int actualHitTime) =
+                            (freeNoteList[i].StartTime + 500, freeNoteList[i].HitTime + 500);
+
+                        // Judging time
+                        var runningTime = actualHitTime - actualStartTime;
+
+                        // Enter animation
+                        if (Tick >= actualStartTime)
                         {
-                            BindingStartKey = flick.StartKey,
-                            BindingEndKey = flick.EndKey,
-                        };
+                            // Create instance
+                            if (freeNoteList[i].GetType() == typeof(Notes.Flick))
+                            {
+                                var flick = (Notes.Flick)freeNoteList[i];
+                                // Tree : FlickGrid => LayoutStack => Block(Animate caller)
+                                var flickInstance = new FlickDisplay
+                                {
+                                    BindingStartKey = flick.StartKey,
+                                    BindingEndKey = flick.EndKey,
+                                    Margin = new(flick.NoteMargin.Item1, flick.NoteMargin.Item2, 0, 0)
+                                };
 
-                        // Create double animation
-                        var lengthAnimation = new DoubleAnimation(0, 250,
-                            TimeSpan.FromMilliseconds(runningTime))
+                                // Add to main
+                                MainWindow!.GameGrid.Children.Add(flickInstance);
+
+                                // Create double animation
+                                var lengthAnimation = new DoubleAnimation(0, 250,
+                                    TimeSpan.FromMilliseconds(runningTime))
+                                {
+                                    AutoReverse = false,
+                                };
+                                lengthAnimation.BeginTime = TimeSpan.FromMilliseconds(500);
+
+                                // Create animation
+                                var storyBoard = new Storyboard();
+                                storyBoard.Children.Add(lengthAnimation);
+                                Storyboard.SetTargetName(lengthAnimation, flickInstance.Block.Name);
+                                Storyboard.SetTargetProperty(lengthAnimation,
+                                    new(FrameworkElement.WidthProperty));
+                                storyBoard.Begin(flickInstance);
+
+                                // Add delta time
+                                freeNoteList[i].StartTime = actualStartTime;
+                                freeNoteList[i].HitTime = actualHitTime;
+                                freeNoteJudgeList.Add(freeNoteList[i]);
+
+                                // Delete it
+                                freeNoteList.RemoveAt(i);
+                            }
+                        }
+                    }
+
+                    // Enter judgment
+                    for (int i = 0; i < freeNoteJudgeList.Count; i++)
+                    {
+                        if (freeNoteJudgeList[i].GetType() == typeof(Notes.Flick))
                         {
-                            AutoReverse = false
-                        };
+                            var flick = (Notes.Flick)freeNoteJudgeList[i];
 
-                        // Binding animation via story board
-                        var storyBoard = new Storyboard();
-                        storyBoard.Children.Add(lengthAnimation);
-                        Storyboard.SetTargetName(lengthAnimation, flickInstance.Block.Name);
-                        Storyboard.SetTargetProperty(lengthAnimation,
-                            new(JudgmentAngleDisplay.WidthProperty));
-                        storyBoard.Begin(flickInstance.Block);
+                            if (Tick - flick.StartTime is >= -2000 and <= 2000 && !flick.IsJudgment)
+                            {
+                                flick.IsJudgment = Keyboard.IsKeyDown(flick.StartKey);
+                            }
 
-                        // Add delta time
-                        freeNoteList[i].StartTime = actualStartTime;
-                        freeNoteList[i].HitTime = actualHitTime;
-                        freeNoteJudgeList.Add(freeNoteList[i]);
-
-                        // Delete it
-                        freeNoteList.RemoveAt(i);
+                            if (Tick - flick.HitTime is >= 160  and <= 740 && flick.IsJudgment &&
+                                Keyboard.IsKeyDown(flick.EndKey))
+                            {
+                                
+                                Score += 2000;
+                                freeNoteJudgeList.RemoveAt(i);
+                            }
+                        }
                     }
-                }
+                });
+                Thread.Sleep(10);
             }
-
-            // Enter judgment
-            for (int i = 0; i < freeNoteJudgeList.Count; i++)
-            {
-                if (freeNoteJudgeList[i].GetType() == typeof(Notes.Flick))
-                {
-                    var flick = (Notes.Flick)freeNoteJudgeList[i];
-
-                    if (Tick - flick.StartTime is >= -120 and <= 120 && !flick.IsJudgment)
-                    {
-                        flick.IsJudgment = Keyboard.IsKeyDown(flick.StartKey);
-                    } 
-                    if (Tick - flick.HitTime is >= -120 and <= 120 && flick.IsJudgment && Keyboard.IsKeyDown(flick.EndKey))
-                    {
-                        Score += 2000;
-                    }
-                }
-            }
-
+            
         }
 
         static async void CountTime()
@@ -528,12 +542,19 @@ namespace Arstive.Controller
             // Record start time
             var startTime = DateTime.Now;
 
+            // Buffering pool
+            var interruptChange = 0;
+            if (Tick < 0)
+            {
+                interruptChange = Tick;
+            }
+
             // Counting time elapsed asynchronous
             var periodicTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(10));
-
             while (await periodicTimer.WaitForNextTickAsync())
             {
-                Tick += (int)(DateTime.Now - startTime).TotalMilliseconds;
+                Tick = (int)(DateTime.Now - startTime).TotalMilliseconds +
+                       interruptChange;
             }
         }
     }
