@@ -1,0 +1,105 @@
+﻿<Window
+    x:Class="Arstive.UI.WelcomeWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Arstive.UI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="clr-namespace:Arstive.UI.Pages"
+    Title="WelcomeWindow"
+    Width="1150"
+    Height="710"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resource\Themes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border
+        Padding="0"
+        BorderThickness="10"
+        CornerRadius="17">
+        <Border.BorderBrush>
+            <SolidColorBrush Color="#FFDCD9F9" />
+        </Border.BorderBrush>
+
+        <Border CornerRadius="12">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="0" Color="#fefefe" />
+                    <GradientStop Offset="1" Color="#ededef" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border
+                    Grid.Row="0"
+                    Margin="10"
+                    CornerRadius="20">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Offset="0" Color="#FF498BF3" />
+                            <GradientStop Offset="1" Color="#FF99C1F7" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        FontSize="30"
+                        Foreground="White">
+                        Welcome to Presention!
+                    </TextBlock>
+                </Border>
+                <Grid Grid.Row="1" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="14*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.Column="0"
+                        Margin="10"
+                        CornerRadius="20">
+                        <Border.Background>
+                            <LinearGradientBrush>
+                                <GradientStop Offset="0" Color="#FF498BF3" />
+                                <GradientStop Offset="1" Color="#FF99C1F7" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <StackPanel VerticalAlignment="Top">
+                                <Button Style="{StaticResource menuButton}">
+                                    <i:PackIconMaterial Kind="ViewDashboard" Style="{StaticResource menuButtonIcon}" />
+                                </Button>
+                                <Button Style="{StaticResource menuButton}">
+                                    <i:PackIconMaterial Kind="Gamepad" Style="{StaticResource menuButtonIcon}" />
+                                </Button>
+                                <Button Style="{StaticResource menuButton}">
+                                    <i:PackIconMaterial Kind="Home" Style="{StaticResource menuButtonIcon}" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+
+                    </Border>
+                    <Grid
+                        Name="ContentGrid"
+                        Grid.Column="1"
+                        Width="1025"
+                        Height="550"
+                        Margin="10">
+                        <p:Overview />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>
