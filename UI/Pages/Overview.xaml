@@ -7,14 +7,23 @@
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:u="clr-namespace:Arstive.UI.UserControl"
-    d:DesignHeight="550"
+    d:DesignHeight="580"
     d:DesignWidth="1025"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Resource\ListBoxTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid Background="Transparent">
         <StackPanel Orientation="Horizontal">
             <Border
-                Width="600"
-                Height="510"
+                Width="580"
+                Height="550"
                 Margin="10,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -39,12 +48,12 @@
 
                     <TextBlock
                         Grid.Row="0"
-                        Margin="330,15,0,5"
+                        Margin="323,15,0,5"
                         HorizontalAlignment="Left"
                         FontFamily="Consolas"
                         FontSize="25"
                         Foreground="White"
-                        Text="Accuracy variation" />
+                        Text="Accuracy Variation" />
 
                     <!--  Acc chart  -->
                     <lvc:CartesianChart
@@ -93,7 +102,7 @@
                     </lvc:CartesianChart>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <u:StatusCard
-                            Margin="36,-10,0,0"
+                            Margin="30,-10,0,0"
                             BackgroundColor="#FF89BFE9"
                             LargeText="ST"
                             SmallText="99.01%" />
@@ -113,7 +122,7 @@
             <StackPanel Orientation="Vertical">
                 <Border
                     Width="385"
-                    Height="280"
+                    Height="295"
                     Margin="20,10,0,0"
                     VerticalAlignment="Top"
                     Background="#FF79DF79"
@@ -125,10 +134,9 @@
                         </Grid.RowDefinitions>
                         <Border
                             Grid.Row="0"
-                            Width="395"
+                            Margin="0,0,0,10"
                             Background="Green"
                             CornerRadius="30,30,0,0" />
-
                         <TextBlock
                             Margin="10"
                             HorizontalAlignment="Center"
@@ -185,13 +193,13 @@
                 </Border>
                 <Border
                     Width="385"
-                    Height="220"
+                    Height="245"
                     Margin="20,10,0,0"
                     Background="#FFFFA1A1"
                     CornerRadius="30">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2.4*" />
+                            <RowDefinition Height="1.8*" />
                             <RowDefinition Height="8*" />
                         </Grid.RowDefinitions>
                         <Border
@@ -207,16 +215,43 @@
                             FontSize="26"
                             Foreground="White"
                             Text="Notice Board" />
-
                         <TextBlock
                             Grid.Row="1"
-                            Width="365"
-                            Margin="10"
-                            FontFamily="JetBrains Mono"
-                            FontSize="16"
-                            Foreground="White"
-                            Text="The new audio game Presentation is currently in urgent production. Please rest assured. You are right, but this is a WPF based audio game, and the final decision has been made; The dust has settled down."
-                            TextWrapping="Wrap" />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Montserrat SemiBold"
+                            FontSize="50">
+                            Board
+                        </TextBlock>
+                        <!--<ListBox
+                            x:Name="UserInfoList"
+                            Grid.Row="1"
+                            Margin="10,5,10,20"
+                            Background="Transparent"
+                            BorderBrush="#eaeaeb"
+                            BorderThickness="1"
+                            ItemContainerStyle="{StaticResource AlertInfoStyle}">
+                            <ListBox.Style>
+                                <Style TargetType="ListBox">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBox">
+                                                <Border
+                                                    x:Name="Bd"
+                                                    Padding="0"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                    <ScrollViewer Focusable="False">
+                                                        <ItemsPresenter />
+                                                    </ScrollViewer>
+                                                </Border>
+
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.Style>
+                        </ListBox>-->
                     </Grid>
                 </Border>
             </StackPanel>

@@ -41,7 +41,7 @@
                     Margin="2"
                     d:Text="99.01%"
                     FontFamily="Consolas"
-                    Text="{Binding SmallText}"/>
+                    Text="{Binding SmallText}" />
             </StackPanel>
         </Grid>
     </Border>

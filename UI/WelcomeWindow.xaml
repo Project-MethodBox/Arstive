@@ -24,8 +24,8 @@
     </Window.Resources>
     <Border
         Padding="0"
-        BorderThickness="10"
-        CornerRadius="17">
+        BorderThickness="20"
+        CornerRadius="22">
         <Border.BorderBrush>
             <SolidColorBrush Color="#FFDCD9F9" />
         </Border.BorderBrush>
@@ -41,25 +41,61 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="10*" />
-                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Border
+                <StackPanel
                     Grid.Row="0"
-                    Margin="10"
-                    CornerRadius="20">
-                    <Border.Background>
-                        <LinearGradientBrush>
-                            <GradientStop Offset="0" Color="#FF498BF3" />
-                            <GradientStop Offset="1" Color="#FF99C1F7" />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        FontSize="30"
-                        Foreground="White">
-                        Welcome to Presention!
-                    </TextBlock>
-                </Border>
+                    Margin="10,10,0,-10"
+                    Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock
+                            Margin="15,0,0,0"
+                            FontFamily="Montserrat"
+                            FontSize="18"
+                            Foreground="Gray">
+                            Welcome To  Presentation
+                        </TextBlock>
+                        <TextBlock
+                            Margin="15,5,0,0"
+                            FontFamily="Montserrat SemiBold"
+                            FontSize="25"
+                            Foreground="Black">
+                            DashBoard
+                        </TextBlock>
+                    </StackPanel>
+                    <Rectangle Width="475" />
+                    <Border
+                        Width="300"
+                        Height="45"
+                        Background="#FFCBCBCB"
+                        CornerRadius="5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox
+                                Width="253"
+                                Height="29"
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Background="#FFCBCBCB"
+                                FontFamily="Consolas"
+                                FontSize="20"
+                                Text="Input to search..." />
+                            <Button
+                                Margin="3"
+                                Background="Transparent"
+                                BorderThickness="0">
+                                <i:PackIconMaterial
+                                    Foreground="Black"
+                                    Kind="SearchWeb"
+                                    Style="{StaticResource menuButtonIcon}" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <Ellipse
+                        Width="50"
+                        Height="50"
+                        Margin="10,0,0,0"
+                        Fill="Gray" />
+                </StackPanel>
+
                 <Grid Grid.Row="1" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -77,8 +113,9 @@
                         </Border.Background>
                         <Grid>
                             <StackPanel VerticalAlignment="Top">
+                                <Rectangle Height="50" />
                                 <Button Style="{StaticResource menuButton}">
-                                    <i:PackIconMaterial Kind="ViewDashboard" Style="{StaticResource menuButtonIcon}" />
+                                    <i:PackIconMaterial Kind="Home" Style="{StaticResource menuButtonIcon}" />
                                 </Button>
                                 <Button Style="{StaticResource menuButton}">
                                     <i:PackIconMaterial Kind="Gamepad" Style="{StaticResource menuButtonIcon}" />
@@ -86,15 +123,18 @@
                                 <Button Style="{StaticResource menuButton}">
                                     <i:PackIconMaterial Kind="Home" Style="{StaticResource menuButtonIcon}" />
                                 </Button>
+                                <Rectangle Height="250" />
+                                <Button Style="{StaticResource menuButton}">
+                                    <i:PackIconMaterial Kind="Power" Style="{StaticResource menuButtonIcon}" />
+                                </Button>
                             </StackPanel>
                         </Grid>
-
                     </Border>
                     <Grid
                         Name="ContentGrid"
                         Grid.Column="1"
-                        Width="1025"
-                        Height="550"
+                        Width="1005"
+                        Height="580"
                         Margin="10">
                         <p:Overview />
                     </Grid>
