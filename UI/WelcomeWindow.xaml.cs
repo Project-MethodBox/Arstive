@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Arstive.UI.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace Arstive.UI
         public WelcomeWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var overview = new Overview([new("A",100,Model.ChartDifficulty.Quadrilateral), new("A", 89, Model.ChartDifficulty.Quadrilateral)]);
+
+            ContentGrid.Children.Add(overview);
         }
     }
 }
