@@ -434,10 +434,8 @@ namespace Arstive.Controller
 
         internal static void JudgeFreeNote(object? freeNoteListState)
         {
-            // TODO:Buffering pool
-
             // Block and synchronous
-            _barrier.SignalAndWait();
+            _barrier!.SignalAndWait();
 
             // All free note judges in the current thread
             // Create instance

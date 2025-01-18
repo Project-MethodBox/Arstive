@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Arstive.Model;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static Arstive.Model.Data;
 
 namespace Arstive.UI.Pages
 {
@@ -20,9 +9,22 @@ namespace Arstive.UI.Pages
     /// </summary>
     public partial class Overview : System.Windows.Controls.UserControl
     {
-        public Overview()
+        public PlayingDataListManger PlayingDatasManger;
+
+        public Overview(List<Data.PlayingData> playingDatas)
         {
+            this.DataContext = PlayingDatasManger;
             InitializeComponent();
+
+            PlayingDatasManger = new();
+            PlayingDatasManger.SetPlayingData(playingDatas);
+            AccuracyChart.Series = PlayingDatasManger.GenerateSeries();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Display corrsponding dataset
+            // Draw chart
         }
     }
 }

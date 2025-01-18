@@ -10,6 +10,7 @@
     Title="WelcomeWindow"
     Width="1150"
     Height="710"
+    Loaded="Window_Loaded"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStartupLocation="CenterOwner"
@@ -136,7 +137,7 @@
                         Width="1005"
                         Height="580"
                         Margin="10">
-                        <p:Overview />
+                        <!--<p:Overview />-->
                     </Grid>
                 </Grid>
             </Grid>

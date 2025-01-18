@@ -9,6 +9,7 @@
     xmlns:u="clr-namespace:Arstive.UI.UserControl"
     d:DesignHeight="580"
     d:DesignWidth="1025"
+    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -59,6 +60,7 @@
                     <lvc:CartesianChart
                         Grid.Row="1"
                         Margin="10"
+                        Name="AccuracyChart"
                         LegendLocation="None">
                         <lvc:CartesianChart.ToolTip>
                             <lvc:DefaultTooltip Background="#FF58ABEB" Foreground="White" />
@@ -84,21 +86,6 @@
                                 </lvc:Axis.Separator>
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisY>
-
-                        <lvc:CartesianChart.Series>
-                            <lvc:LineSeries
-                                Fill="#4CDBE2E8"
-                                StrokeThickness="5"
-                                Values="88,90,98,99,96,89,96,95,91,99 ">
-                                <lvc:LineSeries.Stroke>
-                                    <LinearGradientBrush>
-                                        <GradientStop Offset="0" Color="Transparent" />
-                                        <GradientStop Offset="0.15" Color="#FFDCD9F9" />
-                                        <GradientStop Offset="2" Color="Transparent" />
-                                    </LinearGradientBrush>
-                                </lvc:LineSeries.Stroke>
-                            </lvc:LineSeries>
-                        </lvc:CartesianChart.Series>
                     </lvc:CartesianChart>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <u:StatusCard
