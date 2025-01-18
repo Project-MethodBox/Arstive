@@ -70,7 +70,7 @@ namespace Arstive.Controller
         /// main window</param>
         internal static void LoadChart(string path, Action<UIElement> addControl)
         {
-            Chart.Load("chart.json");
+            Chart.Load("Cuvism.json");
             _player = new SoundPlayer(Chart.Shared.BasicInfo!.SongName!);
             var chart = Chart.Shared;
 

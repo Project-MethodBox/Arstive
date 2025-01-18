@@ -69,36 +69,114 @@ namespace Arstive.Display
             tap14.EndTime = 16500;
             tap14.JudgmentAngleIndex = 3;
             tap14.Index = 14;
-            //var chart = new Chart
-            //{
-            //    BasicInfo = new()
-            //    {
-            //        Charter = "Arabidopsis -Overdose-",
-            //        Composer = "Fl00t vs. Halv",
-            //        ChartDifficultyNumber = 7.1,
-            //        ChartDifficultyName = ChartDifficulty.Quadrilateral,
-            //        SongName = "Cuvism.wav",
-            //        Version = "1.0.0"
-            //    },
-            //    JudgmentAngles =
-            //    [
-            //        new(Key.A, 0, 3,
-            //            [tap, tap2, tap3],
-            //            [new ElementEvent.MoveEvent(3000,
-            //                    new(TimeSpan.FromSeconds(3)),
-            //                    (-90,-1200),new(Easing.EasingFunctionType.SineEase,EasingMode.EaseInOut))
-            //                ,new ElementEvent.RotateEvent(7000,new(TimeSpan.FromSeconds(1)),/*(590, -940)*/-45,new(Easing.EasingFunctionType.BackEase,EasingMode.EaseInOut))
-            //            ,new ElementEvent.MoveEvent(9000,new(TimeSpan.FromMilliseconds(1200)),(-90,-700),new(Easing.EasingFunctionType.BackEase,EasingMode.EaseIn)),
-            //            new ElementEvent.RotateEvent(9800,new(TimeSpan.FromMilliseconds(1200)),360,new(Easing.EasingFunctionType.BackEase,EasingMode.EaseIn)),new ElementEvent.MoveEvent(9800,new(TimeSpan.FromMilliseconds(1200)),(-0,-0),new(Easing.EasingFunctionType.BackEase,EasingMode.EaseIn))],
-            //            (-90, -840)),
-            //        new(Key.X, 1, 6, [tap4,tap5,tap6], [new ElementEvent.MoveEvent(8800,TimeSpan.FromMilliseconds(800),(220,-840)),new ElementEvent.MoveEvent(10100, new(TimeSpan.FromMilliseconds(1200)),(1000,1000),new(Easing.EasingFunctionType.BackEase,EasingMode.EaseIn)), new ElementEvent.RotateEvent(10100, new(TimeSpan.FromSeconds(1)),/*(590, -940)*/-360, new(Easing.EasingFunctionType.BackEase, EasingMode.EaseInOut))], (-90, -2340)),
-            //        new(Key.J, 2, 6, [tap7,tap9], [new ElementEvent.RotateEvent(0, new(TimeSpan.FromMilliseconds(1200)), 360, new(Easing.EasingFunctionType.BackEase, EasingMode.EaseIn)),new ElementEvent.MoveEvent(9800,TimeSpan.FromMilliseconds(800),(220,-940)),new ElementEvent.MoveEvent(11500,TimeSpan.FromMilliseconds(800),(888,-0))], (-90, 0)),
-            //        new(Key.L, 3, 6, [tap8,tap10,tap11,tap12,tap13,tap14], [new ElementEvent.RotateEvent(0, new(TimeSpan.FromMilliseconds(1200)), 360, new(Easing.EasingFunctionType.BackEase, EasingMode.EaseIn)), new ElementEvent.MoveEvent(9600,TimeSpan.FromMilliseconds(800),(-300,-940))], (-90, 0)),
-            //    ],
-            //    FreeNotes = []
-            //};
-            
-            // Chart.Shared = chart;
+
+            var move1 = new ElementEvent.MoveEvent();
+            move1.Duration = new(TimeSpan.FromSeconds(3));
+            move1.StartTime = 3000;
+            move1.EventType = ElementEvent.ElementEventType.Move;
+            move1.Destination = (-90, -1200);
+            var easing1 = new Easing();
+            easing1.EasingFunction = Easing.EasingFunctionType.SineEase;
+            easing1.EasingMode = EasingMode.EaseInOut;
+            move1.Easing = easing1;
+            var rotate1 = new ElementEvent.RotateEvent();
+            rotate1.StartTime = 7000;
+            rotate1.EventType = ElementEvent.ElementEventType.Rotate;
+            rotate1.Duration = TimeSpan.FromSeconds(1);
+            rotate1.EndAngle = -45;
+            var easing2 = new Easing();
+            easing2.EasingFunction = Easing.EasingFunctionType.BackEase;
+            easing2.EasingMode = EasingMode.EaseInOut;
+            rotate1.Easing = easing2;
+            var move2 = new ElementEvent.MoveEvent();
+            move2.Duration = new(TimeSpan.FromMilliseconds(1200));
+            move2.StartTime = 9000;
+            move2.Destination = (-90, -700);
+            move2.Easing = easing2;
+            var rotate2 = new ElementEvent.RotateEvent();
+            rotate2.StartTime = 9800;
+            rotate2.EventType = ElementEvent.ElementEventType.Rotate;
+            rotate2.Duration = TimeSpan.FromSeconds(1);
+            rotate2.EndAngle = 360;
+            rotate2.Duration = TimeSpan.FromMilliseconds(1200);
+            var easing3 = new Easing();
+            easing3.EasingFunction = Easing.EasingFunctionType.BackEase;
+            easing3.EasingMode = EasingMode.EaseIn;
+            rotate2.Easing = easing3;
+            var move3 = new ElementEvent.MoveEvent();
+            move3.StartTime = 9800;
+            move3.Duration = TimeSpan.FromMilliseconds(1200);
+            move3.Destination = (-0, -0);
+            move3.Easing = easing3;
+            var move4 = new ElementEvent.MoveEvent();
+            move4.StartTime = 8800;
+            move4.Duration = TimeSpan.FromMilliseconds(800);
+            move4.Destination = (220, -840);
+            var move5 = new ElementEvent.MoveEvent();
+            move5.StartTime = 10100;
+            move5.Duration = TimeSpan.FromMilliseconds(1200);
+            move5.Destination = (1000, 1000);
+            move5.Easing = easing1;
+            var rotate3 = new ElementEvent.RotateEvent();
+            rotate3.StartTime = 10100;
+            rotate3.Duration = TimeSpan.FromSeconds(1);
+            rotate3.EndAngle = -360;
+            rotate3.EventType = ElementEvent.ElementEventType.Rotate;
+            rotate3.Easing = easing2;
+            var rotate4 = new ElementEvent.RotateEvent();
+            rotate4.StartTime = 0;
+            rotate4.Duration = TimeSpan.FromMilliseconds(1200);
+            rotate4.EndAngle = 360;
+            rotate4.EventType = ElementEvent.ElementEventType.Rotate;
+            rotate4.Easing = easing3;
+            var move6 = new ElementEvent.MoveEvent();
+            move6.StartTime = 9800;
+            move6.Duration = TimeSpan.FromMilliseconds(800);
+            move6.Destination = (220, -940);
+            var move7 = new ElementEvent.MoveEvent();
+            move7.StartTime = 11500;
+            move7.Duration = TimeSpan.FromMilliseconds(800);
+            move7.Destination = (888, -0);
+            var rotate5 = new ElementEvent.RotateEvent();
+            rotate5.StartTime = 0;
+            rotate5.Duration = TimeSpan.FromMilliseconds(1200);
+            rotate5.EndAngle = 360;
+            rotate5.EventType = ElementEvent.ElementEventType.Rotate;
+            rotate5.Easing = easing3;
+            var move8 = new ElementEvent.MoveEvent();
+            move8.StartTime = 8600;
+            move8.Duration = TimeSpan.FromMilliseconds(800);
+            move8.Destination = (-300, -940);
+
+            var chart = new Chart
+            {
+                BasicInfo = new()
+                {
+                    Charter = "Arabidopsis -Overdose-",
+                    Composer = "Fl00t vs. Halv",
+                    ChartDifficultyNumber = 7.1,
+                    ChartDifficultyName = ChartDifficulty.Quadrilateral,
+                    SongName = "Cuvism.wav",
+                    Version = "0.3.0"
+                },
+                JudgmentAngles =
+                [
+                    new(Key.A, 0, 3,
+                        [tap, tap2, tap3],
+                        [move1, rotate1,move2, rotate2,move3],
+                        (-90, -840)),
+                    new(Key.X, 1, 6, [tap4,tap5,tap6], 
+                        [move4, move5, rotate3],(-90, -2340)),
+                    new(Key.J, 2, 6, [tap7,tap9],
+                        [rotate4, move6, move7], (-90, 0)),
+                    new(Key.L, 3, 6, [tap8,tap10,tap11,tap12,tap13,tap14],
+                        [rotate5, move8], (-90, 0)),
+                ],
+                FreeNotes = []
+            };
+
+            Chart.Shared = chart;
+            Chart.Save("cuvism.json");
         }
 
         internal static void LoadTest2()

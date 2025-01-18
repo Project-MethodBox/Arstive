@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Windows;
+using Arstive.Display.Converter.JsonConverter;
 
 namespace Arstive.Model
 {
@@ -13,7 +14,8 @@ namespace Arstive.Model
             /// <summary>
             /// The endpoint of element movement
             /// </summary>
-            [JsonPropertyName("dest")] 
+            [JsonPropertyName("dest")]
+            [JsonConverter(typeof(CoordinateConverter))]
             public (int, int) Destination { get; set; }
         }
 

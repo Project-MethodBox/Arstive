@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Arstive.Display.Converter.JsonConverter;
 
 namespace Arstive.Model
 {
@@ -47,8 +48,15 @@ namespace Arstive.Model
         /// <param name="path">This is a comment</param>
         public static void Save(string path)
         {
+            // Create polymorphic options
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new PolymorphicConverter() },
+                WriteIndented = false
+            };
+
             // Load chart instance
-            var jsonString = JsonSerializer.Serialize(Shared);
+            var jsonString = JsonSerializer.Serialize(Shared, options);
 
             // Write to file
             using var writer = new StreamWriter(path);
@@ -63,8 +71,15 @@ namespace Arstive.Model
             var jsonString = reader.ReadToEnd();
             reader.Close();
 
+            // Create polymorphic options
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new PolymorphicConverter() },
+                WriteIndented = false
+            };
+
             // Load to instance
-            Chart instance = JsonSerializer.Deserialize<Chart>(jsonString)!;
+            var instance = JsonSerializer.Deserialize<Chart>(jsonString, options)!;
             Shared = instance;
         }
     }

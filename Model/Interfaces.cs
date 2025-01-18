@@ -12,9 +12,6 @@ namespace Arstive.Model
         /// Public interface for all event in the game
         /// </summary>
         [Serializable]
-        [JsonDerivedType(typeof(MoveEvent),"moveEvent")]
-        [JsonDerivedType(typeof(RotateEvent), "rotateEvent")]
-        [JsonDerivedType(typeof(VisibleEvent), "visibleEvent")]
         public class ElementEventBase
         {
             /// <summary>
